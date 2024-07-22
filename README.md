@@ -7,31 +7,36 @@
 - Docker
 
 <h3>Как установить?</h3>
+
 1. Перейти в директорию проекта
+
 2. Сделать первую миграцию базы данных
-```bash
-docker-compose run shellcore python manage.py migrate
-```
+	
+ ```docker-compose run shellcore python manage.py migrate```
+
 3. Создать суперпользователь (по желанию, он нужен для доступа к админ панели django по пути localhost:8000/admin)
-```bash
-docker-compose run shellcore python manage.py createsuperuser
-```
+	
+ ```docker-compose run shellcore python manage.py createsuperuser```
+ 
 4. Собрать проект
-```bash
-docker-compose build
-```
+	
+ ```docker-compose build```
+
 5. Запустить проект
-```bash
-docker-compose up
-```
+	
+ ```docker-compose up```
 
 <h2>API для пользования микросервиса</h2>
 <h4>Примечание! в двойных фигурных скобках динамические данные, либо которые вы должны вписать, либо которые вы получите. Так называемые переменные</h4> 
 
 <h4>Регистрация</h4>
+
 - Запрос - POST
+  
 - url - localhost:8000/api/auth/registrating
+  
 - body - json
+  
 ```json
 {
 	"first_name" : "{{your first name}}",
@@ -43,16 +48,23 @@ docker-compose up
 ```
 
 <h4>Авторизация</h4>
+
 - Запрос - POST
+  
 - url - localhost:8000/api/auth/login
+  
 - body - json
+  
 ```json
 {
 	"username" : "{{your username}}",
 	"password" : "{{your password}}"
 }
+
 ```
+
 - answer - json
+  
 ```json
 body - {
     "refresh_token": "{{your refresh token}}",
@@ -65,16 +77,23 @@ header - {
 
 <h4>Примечание! Эти токены следует записывать в cookie</h4> 
 <h4>Обновление access токена</h4>
+
 - Запрос - POST
+  
 - url - localhost:8000/api/auth/refresh-token
+  
 - body - не требуется
+  
 - header - обязательные теги
+  
 ```json
 {
 	"Cookie" : "access={{your access token}}; csrftoken={{your csrftoken}}; refresh={{your refresh token}}"
 }
 ```
+
 - answer - json
+  
 ```json
 body - {
     "access_token": "{{your access token}}",
@@ -86,10 +105,15 @@ header - {
 ```
 
 <h4>Получить данные пользователя</h4>
+
 - Запрос - GET
+  
 - url - localhost:8000/api/auth/user
+  
 - body - не требуется
+  
 - header - обязательные теги
+  
 ```json
 {
 	"Cookie" : "access={{your access token}}; csrftoken={{your csrftoken}}; refresh={{your refresh token}}",
@@ -97,7 +121,9 @@ header - {
 	"Auhorization" : "Bearer {{your access token}}"
 }
 ```
+
 - answer - json
+  
 ```json
 {
     "id": {{your id}},
@@ -109,10 +135,15 @@ header - {
 ```
 
 <h4>Проверить актуальность авторизации</h4>
+
 - Запрос - GET
+  
 - url - localhost:8000/api/auth/check
+  
 - body - не требуется
+  
 - header - обязательные теги
+  
 ```json
 {
 	"Cookie" : "access={{your access token}}; csrftoken={{your csrftoken}}; refresh={{your refresh token}}",
@@ -120,7 +151,9 @@ header - {
 	"Auhorization" : "Bearer {{your access token}}"
 }
 ```
+
 - answer - если авторизован - text
+  
 ```
 "authorized"
 ```
